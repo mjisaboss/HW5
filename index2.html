@@ -1,0 +1,69 @@
+<html>
+<head>
+  <script src='https://aframe.io/releases/1.2.0/aframe.min.js'></script>
+  <!-- Include html embed component, that allows embedding html elements -->
+  <script src="https://supereggbert.github.io/aframe-htmlembed-component/dist/build.js"></script>
+  <style>
+    #wrapper {
+      background: #000000;
+      width: 600px;
+      height: 300px;
+    }
+
+    #example {
+      padding: 20px;
+      font-size: 30px;
+      color: rgb(255, 0, 0);
+    }
+
+    #resultData {
+      padding: 20px;
+      font-size: 30px;
+      color: rgb(255, 0, 0);
+    }
+  </style>
+</head>
+
+<body>
+  <a-scene>
+    <!-- Create clickable events -->
+    <a-entity position="0 0 0" cursor="fuse: false; rayOrigin: mouse;"
+      raycaster="far: ${customFields.libVersion}; objects: .clickable"></a-entity>
+    <!-- Pay attention to htmlembed attribute -->
+      <a-entity position="0 0 -3" htmlembed class="clickable">
+      <div id="wrapper">
+        <div id="example"></div>
+        <div id="resultData"></div>
+      </div>
+    </a-entity>
+
+    <a-sky color='#ECECEC'></a-sky>
+  </a-scene>
+</body>
+<script>
+  // Declare variables
+  var example = document.querySelector("#example");
+  var resultData = document.querySelector("#resultData");
+  var clickableArea = document.querySelector(".clickable");
+  // Create array with three sentences
+  var myList = ["Columbus is the [MASK] of Ohio", "The [MASK] Destiny is a first person shooter", "Red Dead Redemption 2 won game of the year back in [MASK]"]
+  // Get random sentence from the array
+  var randomlySelected = myList[Math.floor(Math.random() * myList.length)];
+  // Put randomly selected array into example div
+  example.innerHTML = randomlySelected;
+
+  // Create event listener, i.e. on click
+  clickableArea.addEventListener("click", function () {
+    // The code below is copied from the API generated in hugging face
+    // The only things we change/add are: data: [randomlySelected]
+    // resultData.innerHTML = json_response.data[0]  
+    fetch('https://hf.space/gradioiframe/Gaborandi/Text_Generator_application/+/api/predict/', { method: "POST", body: JSON.stringify({"data":[ "Hello World"
+
+]}), headers: { "Content-Type": "application/json" } }).then(function(response) { return response.json(); }).then(function(json_response){ console.log(json_response) })
+      });
+  
+
+
+</script>
+
+</html>
